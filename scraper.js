@@ -45,6 +45,21 @@ const COINS = "2000000";
         .child(timeKey)
         .set(amount);
 
+
+    const lowRef = db.ref("meta/all_time_low");
+    const result = await lowRef.transaction((currentLow) => {
+        if (currentLow === null || amount < currentLow) {
+            return amount;
+        }
+        return;
+    });
+
+    if (result.committed) {
+        console.log("New all-time low set:", amount);
+    } else {
+        console.log("No new low. Current price:", amount);
+    }
+
     await admin.app().delete();
 
     process.exit(0);
