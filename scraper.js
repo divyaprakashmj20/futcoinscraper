@@ -1,5 +1,6 @@
 const { chromium } = require("playwright");
 const { getFirebase } = require("./firebase");
+const { sendMail } = require("./mailer");
 
 const URL = "https://futcoin.net/en/fc-26-coins/ps5/comfort";
 const COINS = "2000000";
@@ -56,6 +57,10 @@ const COINS = "2000000";
 
     if (result.committed) {
         console.log("New all-time low set:", amount);
+        await sendMail(
+            "FUTCOIN ALL-TIME LOW 🔥",
+            `New all-time low detected!\n\nPrice: €${amount}\nURL: ${URL}`
+        );
     } else {
         console.log("No new low. Current price:", amount);
     }
