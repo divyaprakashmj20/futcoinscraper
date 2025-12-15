@@ -33,13 +33,17 @@ const COINS = "2000000";
     await browser.close();
 
     const { db, admin } = getFirebase();
-    await db.ref("futcoin_prices").push({
-        coins: Number(COINS),
-        amount,
-        currency: "EUR",
-        url: URL,
-        scrapedAt: new Date().toISOString(),
-    });
+    const now = new Date();
+
+    const dateKey = now.toISOString().slice(0, 10);
+
+    // Time: HH-mm-ss
+    const timeKey = now.toISOString().slice(11, 19).replace(/:/g, "-");
+    await db
+        .ref("futcoin_prices")
+        .child(dateKey)
+        .child(timeKey)
+        .set(amount);
 
     await admin.app().delete();
 
