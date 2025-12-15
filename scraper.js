@@ -1,4 +1,5 @@
 const { chromium } = require("playwright");
+const { getFirebase } = require("./firebase");
 
 const URL = "https://futcoin.net/en/fc-26-coins/ps5/comfort";
 const COINS = "2000000";
@@ -28,5 +29,19 @@ const COINS = "2000000";
     amount = amount.replace('€', '')
     console.log("Amount:", amount);
 
+
     await browser.close();
+
+    const { db, admin } = getFirebase();
+    await db.ref("futcoin_prices").push({
+        coins: Number(COINS),
+        amount,
+        currency: "EUR",
+        url: URL,
+        scrapedAt: new Date().toISOString(),
+    });
+
+    await admin.app().delete();
+
+    process.exit(0);
 })();

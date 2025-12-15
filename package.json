@@ -1,11 +1,11 @@
 {
   "dependencies": {
+    "firebase-admin": "^13.6.0",
     "playwright": "^1.57.0"
   },
   "name": "futcoin-scraper",
   "version": "1.0.0",
   "main": "scraper.js",
-  "devDependencies": {},
   "scripts": {
     "start": "node scraper.js"
   },
