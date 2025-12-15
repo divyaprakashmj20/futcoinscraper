@@ -5,11 +5,11 @@ let initialized = false;
 function getFirebase() {
     if (!initialized) {
         const json = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
-
+        var serviceAccount; 
         if (!json){
-            var serviceAccount = require("./serviceAccountKey.json");
+            serviceAccount = require("./serviceAccountKey.json");
         } else{
-        const serviceAccount = JSON.parse(json);
+            serviceAccount = JSON.parse(json);
         }
 
 
